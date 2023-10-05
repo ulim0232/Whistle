@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f; // 앞뒤 움직임의 속도
-    public float rotateSpeed = 180f; // 좌우 회전 속도
+    public float rotateSpeed = 360f; // 좌우 회전 속도
     public float jumpForce = 5f;
 
     private Vector3 direction;
@@ -56,6 +56,10 @@ public class PlayerMovement : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Space)) 
         {
+            if (isJumping)
+            {
+                return;
+            }
             Jump();
         }
     }
