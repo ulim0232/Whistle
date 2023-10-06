@@ -9,7 +9,6 @@ public class DoorAction : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log("key down e");
             RaycastHit hit;
             Physics.Raycast(transform.position,transform.TransformDirection(Vector3.forward), out hit);
             Debug.Log(hit.transform.tag);
