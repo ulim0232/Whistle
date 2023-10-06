@@ -22,10 +22,16 @@ public class UIManager : MonoBehaviour
     }
     private static UIManager m_instance; // ΩÃ±€≈Ê¿Ã «“¥Áµ… ∫Øºˆ
 
-    public TextMeshProUGUI interactTxt; 
+    public TextMeshProUGUI interactTxt;
+    public Slider dataProgress;
 
     public void SetActiveInteractUI(bool active)
     {
         interactTxt.gameObject.SetActive(active);
+    }
+
+    public void SetDataProgress(float value)
+    {
+        dataProgress.value = value;
     }
 }

@@ -32,6 +32,7 @@ public class MissionData : MonoBehaviour
         else
         {
             gauge = Mathf.Lerp(0f, 100f, elapsed / duration);
+            UIManager.instance.SetDataProgress(gauge);
         }
         Debug.Log("Current Gauge Value: " + gauge);
     }
