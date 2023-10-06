@@ -11,6 +11,7 @@ public class MissionData : MonoBehaviour
     public Outline outline;
     public bool isPaused;
     private float pauseTime;
+    public PlayerInput playerinput;
 
     private void Start()
     {
@@ -42,7 +43,7 @@ public class MissionData : MonoBehaviour
             gauge = Mathf.Lerp(0f, 100f, elapsed / duration);
             UIManager.instance.SetDataProgress(gauge);
         }
-        Debug.Log("Current Gauge Value: " + gauge);
+        //Debug.Log("Current Gauge Value: " + gauge);
     }
     public void StartCapture() //È°¼ºÈ­
     {
@@ -64,6 +65,7 @@ public class MissionData : MonoBehaviour
 
     public void PauseCapture()
     {
+        Debug.Log("pause");
         if (isCapturing && !isPaused)
         {
             isPaused = true;

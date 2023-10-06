@@ -18,13 +18,25 @@ public class PlayerInteract : MonoBehaviour
 
     private void Update()
     {
-        if(playerinput.interact)
+        if (playerinput.move != 0 || playerinput.rotate != 0)
+        {
+            if (interactObj != null && interactObj.isCapturing)
+            {
+                interactObj.PauseCapture();
+            }
+        }
+        if (playerinput.interact)
         {
             if(findObjectInFov.hitObject != null)
                 interactObj = findObjectInFov.hitObject.GetComponent<MissionData>();
-            else
+            else // 상호 작용 가능한 오브젝트가 조준점에 들어오지 않았음
             {
                 Debug.Log("hitObject null");
+                return;
+            }
+            if(interactObj.isCapturing) //캡쳐 중인 오브젝트에 상호작용 재시도 -> 아무일도 하지 않음
+            {
+                return;
             }
             if (interactObj != null)
             {

@@ -326,6 +326,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2092941048591357053, guid: e8fc2140b3316a749a381ef90fafc012, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 3751706416376785245, guid: e8fc2140b3316a749a381ef90fafc012, type: 3}
       propertyPath: m_LocalPosition.x
       value: 14.24
@@ -393,6 +397,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 355285247}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2092941048591357053, guid: e8fc2140b3316a749a381ef90fafc012, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1107466641}
+    - targetCorrespondingSourceObject: {fileID: 2092941048591357053, guid: e8fc2140b3316a749a381ef90fafc012, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1107466640}
     - targetCorrespondingSourceObject: {fileID: 8909078221574878072, guid: e8fc2140b3316a749a381ef90fafc012, type: 3}
       insertIndex: -1
       addedObject: {fileID: 739696609}
@@ -1165,6 +1175,8 @@ MonoBehaviour:
   duration: 60
   isCapturing: 0
   outline: {fileID: 0}
+  isPaused: 0
+  playerinput: {fileID: 0}
 --- !u!1 &883631302
 GameObject:
   m_ObjectHideFlags: 0
@@ -1371,6 +1383,8 @@ MonoBehaviour:
   duration: 5
   isCapturing: 0
   outline: {fileID: 0}
+  isPaused: 0
+  playerinput: {fileID: 0}
 --- !u!1 &903651220
 GameObject:
   m_ObjectHideFlags: 0
@@ -1590,7 +1604,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 100
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1680,7 +1694,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1032527536}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18404289, y: -0.00000003781742, z: 0.0000000070809834, w: 0.98291826}
+  m_LocalRotation: {x: 0.18404289, y: 0.00000003781742, z: -0.0000000070809834, w: 0.98291826}
   m_LocalPosition: {x: 13.324, y: 3.87, z: 42.624}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1721,6 +1735,46 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1107466635 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2092941048591357053, guid: e8fc2140b3316a749a381ef90fafc012, type: 3}
+  m_PrefabInstance: {fileID: 320099992}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1107466640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1107466635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 0.2880293, g: 1, b: 0, a: 1}
+  outlineWidth: 3
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
+--- !u!114 &1107466641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1107466635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7a4ce93a74242c41b37f308c743932d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 10
+  isCapturing: 0
+  outline: {fileID: 1107466640}
+  isPaused: 0
+  playerinput: {fileID: 0}
 --- !u!1 &1114354711 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7924543245305243791, guid: e8fc2140b3316a749a381ef90fafc012, type: 3}
@@ -1741,6 +1795,8 @@ MonoBehaviour:
   duration: 5
   isCapturing: 0
   outline: {fileID: 1114354718}
+  isPaused: 0
+  playerinput: {fileID: 0}
 --- !u!114 &1114354718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2014,7 +2070,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1256916171}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18404289, y: -0.00000001890871, z: 0.0000000035404915, w: 0.98291826}
+  m_LocalRotation: {x: 0.18404289, y: 0.00000001890871, z: -0.0000000035404915, w: 0.98291826}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2683,6 +2739,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactTxt: {fileID: 903651221}
+  dataProgress: {fileID: 971316617}
 --- !u!1 &1848409625
 GameObject:
   m_ObjectHideFlags: 0

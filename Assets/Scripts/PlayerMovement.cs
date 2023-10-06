@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isJumping = false;
 
     private PlayerInput playerInput; // 플레이어 입력을 알려주는 컴포넌트
+    private PlayerInteract playerInteract;
     private Rigidbody playerRigidbody; // 플레이어 캐릭터의 리지드바디
     private Animator playerAnimator; // 플레이어 캐릭터의 애니메이터
 
@@ -23,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
         // 사용할 컴포넌트들의 참조를 가져오기
         playerInput = GetComponent<PlayerInput>();
         playerRigidbody = GetComponent<Rigidbody>();
+        playerInteract = GetComponent<PlayerInteract>();
         //playerAnimator = GetComponent<Animator>();
         worldCam = Camera.main; //씬에서 메인 카메라 태그가 붙은 게임오브젝트를 GetCompnent 해서 리턴함
     }
@@ -67,6 +69,13 @@ public class PlayerMovement : MonoBehaviour
     // 입력값에 따라 캐릭터를 앞뒤로 움직임
     private void Move()
     {
+        //if (playerInteract.interactObj != null) //이동하면 캡쳐 일시정지
+        //{
+        //    if(playerInteract.interactObj.isCapturing)
+        //    {
+        //        playerInteract.interactObj.PauseCapture();
+        //    }
+        //}
         var position = playerRigidbody.position;
 
         position += direction * moveSpeed * Time.deltaTime;
