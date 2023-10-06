@@ -28,8 +28,14 @@ public class PlayerInteract : MonoBehaviour
             }
             if (interactObj != null)
             {
-                Debug.Log(interactObj.name);
-                interactObj.StartCapture();
+                if(interactObj.isPaused)
+                {
+                    interactObj.ResumeCapture();
+                }
+                else
+                {
+                    interactObj.StartCapture();
+                }
             }
             else
             {

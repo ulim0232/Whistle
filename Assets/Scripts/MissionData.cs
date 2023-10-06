@@ -9,6 +9,8 @@ public class MissionData : MonoBehaviour
     private float startTime;
     public bool isCapturing; //수집 중인지 확인. 이것이 활성화되면 진행도가 점점 오름
     public Outline outline;
+    public bool isPaused;
+    private float pauseTime;
 
     private void Start()
     {
@@ -18,9 +20,15 @@ public class MissionData : MonoBehaviour
 
     public void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            PauseCapture();
+        }
         if (!isCapturing)
             return;
         Capturing();
+
     }
     public void Capturing()
     {
@@ -40,6 +48,7 @@ public class MissionData : MonoBehaviour
     {
         startTime = Time.time;
         isCapturing = true;
+        UIManager.instance.SetActivePorgressUI(true);
     }
 
     public void CompleteCapture()
@@ -49,6 +58,29 @@ public class MissionData : MonoBehaviour
         if(outline != null)
         {
             outline.enabled = false;
+        }
+        UIManager.instance.SetActivePorgressUI(false);
+    }
+
+    public void PauseCapture()
+    {
+        if (isCapturing && !isPaused)
+        {
+            isPaused = true;
+            isCapturing = false;
+            pauseTime = Time.time;
+            UIManager.instance.SetActivePorgressUI(false);
+        }
+    }
+
+    public void ResumeCapture()
+    {
+        if (!isCapturing && isPaused)
+        {
+            isPaused = false;
+            isCapturing = true;
+            startTime += Time.time - pauseTime; // 일시정지된 시간을 더해 다시 시작
+            UIManager.instance.SetActivePorgressUI(true);
         }
     }
 }

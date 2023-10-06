@@ -25,9 +25,19 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI interactTxt;
     public Slider dataProgress;
 
+    private void Start()
+    {
+        SetActivePorgressUI(false);
+    }
+
     public void SetActiveInteractUI(bool active)
     {
         interactTxt.gameObject.SetActive(active);
+    }
+
+    public void SetActivePorgressUI(bool active)
+    {
+        dataProgress.gameObject.SetActive(active);
     }
 
     public void SetDataProgress(float value)
