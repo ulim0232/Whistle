@@ -1,15 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class FindObjectInFov : MonoBehaviour
 {
     private Camera mainCamera;
-    public float rayLength = 100f; // 레이의 길이 (조정 가능)  
+    private float rayLength = 7f; // 레이의 길이 (조정 가능)  
     public LayerMask targetLayer;
+    public LayerMask bookLayer;
     public GameObject hitObject { get; private set; }
-    public UIManager manager;
+    public GameObject bookObject { get; private set; }
 
     void Start()
     {
@@ -29,24 +27,36 @@ public class FindObjectInFov : MonoBehaviour
             Ray ray = new Ray(mainCamera.transform.position, mainCamera.transform.forward);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, 50, targetLayer))
+            if (Physics.Raycast(ray, out hit, rayLength, bookLayer))
+            {
+                bookObject = hit.transform.gameObject;
+            }
+            if (Physics.Raycast(ray, out hit, rayLength, targetLayer))
             {
                 hitObject = hit.transform.gameObject;
-                if(!hitObject.GetComponent<MissionData>().isCapturing) 
-                {
-                    UIManager.instance.SetActiveInteractUI(true);
-                }
-                else
-                {
-                    UIManager.instance.SetActiveInteractUI(false);
-                }
-                //return hit.transform.gameObject;
-                //Debug.Log(hitObject.name);
+            //    var hitMisiondata = hitObject.GetComponent<MissionData>();
+            //    if (!hitMisiondata.isCapturing) 
+            //    {
+            //        if (UIManager.instance != null)
+            //        {
+            //            UIManager.instance.SetActiveInteractUI(true);
+            //        }
+            //        else
+            //        {
+            //            Debug.Log("uimanagernoindstance");
+            //        }
+            //    }
+            //    else
+            //    {
+            //        UIManager.instance.SetActiveInteractUI(false);
+            //    }
+            //    //return hit.transform.gameObject;
+            //    //Debug.Log(hitObject.name);
             }
-            else
-            {
-                UIManager.instance.SetActiveInteractUI(false);
-            }
+            //else
+            //{
+            //    UIManager.instance.SetActiveInteractUI(false);
+            //}
         }
     }
 }

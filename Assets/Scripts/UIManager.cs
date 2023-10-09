@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,6 +21,8 @@ public class UIManager : MonoBehaviour
 
     public TextMeshProUGUI interactTxt;
     public Slider dataProgress;
+    public GameObject gameClearUI; // 게임 오버시 활성화할 UI 
+    public GameObject controlUI;
 
     private void Start()
     {
@@ -43,5 +42,15 @@ public class UIManager : MonoBehaviour
     public void SetDataProgress(float value)
     {
         dataProgress.value = value;
+    }
+
+    public void SetActiveGameclearUI(bool active)
+    {
+        gameClearUI.SetActive(active);
+    }
+
+    public void SetActiveControlUI(bool active)
+    {
+        controlUI.SetActive(active);
     }
 }
