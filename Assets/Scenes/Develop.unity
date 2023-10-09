@@ -1426,9 +1426,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2092941048591357053, guid: e8fc2140b3316a749a381ef90fafc012, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1107466640}
-    - targetCorrespondingSourceObject: {fileID: 8909078221574878072, guid: e8fc2140b3316a749a381ef90fafc012, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 739696609}
     - targetCorrespondingSourceObject: {fileID: 7924543245305243791, guid: e8fc2140b3316a749a381ef90fafc012, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1114354716}
@@ -2485,31 +2482,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 725342107}
   m_CullTransparentMesh: 1
---- !u!1 &739696607 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8909078221574878072, guid: e8fc2140b3316a749a381ef90fafc012, type: 3}
-  m_PrefabInstance: {fileID: 320099992}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &739696609
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 739696607}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7a4ce93a74242c41b37f308c743932d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  duration: 60
-  isCapturing: 0
-  isCaptured: 0
-  outline: {fileID: 0}
-  isPaused: 0
-  player: {fileID: 0}
-  outlineDis: 10
-  hasCompletedCapture: 0
 --- !u!1 &903651220
 GameObject:
   m_ObjectHideFlags: 0
@@ -2953,7 +2925,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1032527536}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18404289, y: -0.00000003781742, z: 0.0000000070809834, w: 0.98291826}
+  m_LocalRotation: {x: 0.18404289, y: 0.00000003781742, z: -0.0000000070809834, w: 0.98291826}
   m_LocalPosition: {x: 27, y: 3.87, z: 18.52}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3485,7 +3457,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1256916171}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18404289, y: -0.00000001890871, z: 0.0000000035404915, w: 0.98291826}
+  m_LocalRotation: {x: 0.18404289, y: 0.00000001890871, z: -0.0000000035404915, w: 0.98291826}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
