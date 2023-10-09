@@ -24,6 +24,7 @@ public class FindObjectInFov : MonoBehaviour
         if (mainCamera != null)
         {
             hitObject = null;
+            bookObject = null;
             Ray ray = new Ray(mainCamera.transform.position, mainCamera.transform.forward);
             RaycastHit hit;
 
