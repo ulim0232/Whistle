@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
         playerInteract = GetComponent<PlayerInteract>();
         //playerAnimator = GetComponent<Animator>();
         worldCam = Camera.main; //씬에서 메인 카메라 태그가 붙은 게임오브젝트를 GetCompnent 해서 리턴함
+        playerAnimator = GetComponent<Animator>();
     }
 
     // FixedUpdate는 물리 갱신 주기에 맞춰 실행됨
@@ -54,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
         {
             direction.Normalize();
         }
-        //playerAnimator.SetFloat("Move", direction.magnitude);
+        playerAnimator.SetFloat("Move", direction.magnitude);
 
         if(Input.GetKeyDown(KeyCode.Space)) 
         {
@@ -95,7 +96,14 @@ public class PlayerMovement : MonoBehaviour
     private void Jump()
     {
         isJumping = true;
+        
         playerRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+
+        if (!playerAnimator.GetBool("Jump"))
+        {
+            playerAnimator.SetBool("Jump", true);
+            playerAnimator.SetTrigger("Jump1");
+        }   
     }
 
 
@@ -104,6 +112,7 @@ public class PlayerMovement : MonoBehaviour
         if(collision.gameObject.CompareTag("Ground"))
         {
             isJumping = false;
+            playerAnimator.SetBool("Jump", false);
         }
     }
 }
