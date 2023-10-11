@@ -6,7 +6,7 @@ public class MissionBook : MonoBehaviour
 {
     public Outline outline;
     public Transform player;
-    public float outlineDis = 10f;
+    private float outlineDis = 3f;
 
     private void Start()
     {

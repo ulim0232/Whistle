@@ -14,7 +14,7 @@ public class MissionData : MonoBehaviour
     public bool isPaused;
     private float pauseTime;
     public Transform player;
-    public float outlineDis = 10f;
+    private float outlineDis = 3f;
     public bool hasCompletedCapture = false;
 
     private void Start()

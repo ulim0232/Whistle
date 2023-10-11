@@ -3,7 +3,7 @@ using UnityEngine;
 public class FindObjectInFov : MonoBehaviour
 {
     private Camera mainCamera;
-    private float rayLength = 7f; // 레이의 길이 (조정 가능)  
+    private float rayLength = 6f; // 레이의 길이 (조정 가능)  
     public LayerMask targetLayer;
     public LayerMask bookLayer;
     public GameObject hitObject { get; private set; }
