@@ -14,24 +14,40 @@ public class Enemy : LivingEntity
         Trace //추적
     }
 
-    public float gauge = 0; //위험 게이지
+    //상태
     public State state { get; private set; }
-    public LivingEntity target; //추적할 플레이어
-    NavMeshAgent pathFinder; //추적 루트에 사용
+
+    //시간
+    private float waitTime = 3f;
+
+    private float targetTimer = 0f;
+    private float targetTime = 5f;
+
+    private float resetTime = 60f; //1분 후 게이지 초기화
+    private float resetTimer = 0f;
+
+    //게이지
+    public float gauge = 0; //위험 게이지
+    private float maxGauge = 100f;
+
+    private float rate = 15f; //초당 오르는 게이지 값
+
+    //위치
     Vector3 startPos; //돌아갈 위치
 
+    //오브젝트
+    public LivingEntity target; //추적할 플레이어
+    NavMeshAgent pathFinder; //추적 루트에 사용
     public FieldOfView fieldOfView;
     public LayerMask targetLayer;
 
-    private float maxGauge = 100f;
-    private float rate = 15f;
+    //bool
     private bool isWaiting = false;
-    private float waitTime = 3f;
-    private float targetTimer = 0f;
-    private float targetTime = 5f;
-    private float soundRadius = 5f;
     private bool hasTargetInFOV = false;
+    private bool isWatingReset = false;
 
+    //소리감지
+    private float soundRadius = 5f;
     private bool hasTarget
     {
         get
@@ -51,7 +67,20 @@ public class Enemy : LivingEntity
     {
         if (dead) return; //죽으면 업데이트X
 
+        if(isWatingReset)
+        {
+            resetTimer += Time.deltaTime;
+            //Debug.Log(resetTimer);
+            if(resetTimer > resetTime)
+            {
+                resetTimer = 0f;
+                gauge = 0;
+                isWatingReset = false;
+            }
+        }
+
         FindTarget(); //시야의 타겟을 감지함
+
         Debug.Log(state);
         switch (state)
         {
@@ -78,6 +107,7 @@ public class Enemy : LivingEntity
         {
             if (gauge >= 100)
             {
+                pathFinder.speed = 2;
                 state = State.Trace;
             }
             else
@@ -97,6 +127,7 @@ public class Enemy : LivingEntity
         {
             if (gauge >= 100)
             {
+                pathFinder.speed = 2;
                 state = State.Trace;
             }
             else
@@ -140,6 +171,7 @@ public class Enemy : LivingEntity
         {
             state = State.Idle;
             pathFinder.speed = 1;
+            isWatingReset = true;
             return;
         }
         MoveToPos(target.transform.position);
@@ -169,6 +201,11 @@ public class Enemy : LivingEntity
             targetTimer = 0f;
             hasTargetInFOV = true;
             target = fieldOfView.player.GetComponent<LivingEntity>();
+            if(isWatingReset)
+            {
+                isWatingReset = false;
+                resetTimer = 0f;
+            }
         }
         else
         {
@@ -214,7 +251,7 @@ public class Enemy : LivingEntity
             state = State.Trace;
             pathFinder.speed = 2;
         }
-        Debug.Log(gauge);
+        //Debug.Log(gauge);
     }
 
     private Vector3 GetRandomPos()
