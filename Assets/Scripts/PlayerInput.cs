@@ -17,5 +17,7 @@ public class PlayerInput : MonoBehaviour
         rotate = Input.GetAxis("Horizontal");
 
         interact = Input.GetKeyDown(KeyCode.E);
+
+        fire = Input.GetButtonDown("Fire1");
     }
 }

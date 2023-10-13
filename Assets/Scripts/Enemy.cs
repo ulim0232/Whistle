@@ -108,7 +108,7 @@ public class Enemy : LivingEntity
 
         FindTarget(); //시야의 타겟을 감지함
 
-        Debug.Log(state);
+        //Debug.Log(state);
         switch (state)
         {
             case State.Idle:
@@ -347,5 +347,23 @@ public class Enemy : LivingEntity
                 target.OnDamage(damage);
             }
         }
+    }
+
+    public override void OnDamage(float damage)
+    {
+        // LivingEntity의 OnDamage() 실행(데미지 적용)
+        base.OnDamage(damage);
+        Debug.Log($"enemy health: {health}");
+    }
+
+    // 사망 처리
+    public override void Die()
+    {
+        // LivingEntity의 Die() 실행(사망 적용)
+        base.Die();
+        //playerAnimator.SetTrigger("Die");
+        //playerMovement.enabled = false;
+        //playerAnimator.SetTrigger("Die");
+
     }
 }
