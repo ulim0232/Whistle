@@ -17,6 +17,10 @@ public class Enemy : LivingEntity
     //상태
     public State state { get; private set; }
 
+    //속도
+    public float runSpeed = 4;
+    public float walkSpeed = 2;
+
     //시간
     private float waitTime = 3f;
 
@@ -26,6 +30,9 @@ public class Enemy : LivingEntity
     private float resetTime = 60f; //1분 후 게이지 초기화
     private float resetTimer = 0f;
 
+    private float lastAttackTime = 0;
+    private float timeBetAttack = 2f;
+
     //게이지
     public float gauge = 0; //위험 게이지
     private float maxGauge = 100f;
@@ -33,7 +40,12 @@ public class Enemy : LivingEntity
     private float rate = 15f; //초당 오르는 게이지 값
 
     //위치
-    Vector3 startPos; //돌아갈 위치
+    public Vector3 nextPos; //다음 이동 위치
+    //List<Vector3> WayPoints = new List<Vector3>();
+    private Vector3[] WayPoints;
+    public Transform[] WayPointTransforms;
+    public int wayPointCount = 0;
+    public int nextWayPointIndex = 0;
 
     //오브젝트
     public LivingEntity target; //추적할 플레이어
@@ -45,9 +57,12 @@ public class Enemy : LivingEntity
     private bool isWaiting = false;
     private bool hasTargetInFOV = false;
     private bool isWatingReset = false;
+    private bool isReversing = false;
 
     //소리감지
     private float soundRadius = 5f;
+
+    public float damage = 10f;
     private bool hasTarget
     {
         get
@@ -60,7 +75,19 @@ public class Enemy : LivingEntity
     {
         pathFinder = GetComponent<NavMeshAgent>();
         state = State.Idle;
-        startPos = Vector3.zero;
+        nextPos = Vector3.zero;
+        
+    }
+
+    private void Start()
+    {
+        wayPointCount = WayPointTransforms.Length;
+        WayPoints = new Vector3[wayPointCount];
+        for (int i = 0; i < wayPointCount; i++)
+        {
+            WayPoints[i] = WayPointTransforms[i].position;
+        }
+        nextPos = WayPoints[nextWayPointIndex];
     }
 
     private void Update()
@@ -107,7 +134,7 @@ public class Enemy : LivingEntity
         {
             if (gauge >= 100)
             {
-                pathFinder.speed = 2;
+                pathFinder.speed = runSpeed; //2;
                 state = State.Trace;
             }
             else
@@ -127,25 +154,29 @@ public class Enemy : LivingEntity
         {
             if (gauge >= 100)
             {
-                pathFinder.speed = 2;
+                pathFinder.speed = runSpeed; // 2;
                 state = State.Trace;
             }
             else
             {
                 state = State.Doubt;
             }
-            startPos = GetRandomPos();
+            SetNextPos();
+            //nextWayPointIndex++;
+            //nextPos = WayPoints[nextWayPointIndex];
         }
         else
         {
-            //Debug.Log(pathFinder.remainingDistance);
-            if (pathFinder.remainingDistance <= pathFinder.stoppingDistance)
+            if (pathFinder.remainingDistance <= pathFinder.stoppingDistance) //도착하면 아이들 상태로 전환
             {
+                SetNextPos();
+                //nextWayPointIndex++;
+                //nextPos = WayPoints[nextWayPointIndex];
                 state = State.Idle;
             }
             else
             {
-                MoveToPos(startPos);
+                MoveToPos(nextPos);
             }
         }
     }
@@ -170,7 +201,7 @@ public class Enemy : LivingEntity
         if (!hasTarget)
         {
             state = State.Idle;
-            pathFinder.speed = 1;
+            pathFinder.speed = walkSpeed; //1;
             isWatingReset = true;
             return;
         }
@@ -184,8 +215,7 @@ public class Enemy : LivingEntity
 
         isWaiting = false;
         state = State.Walk;
-        startPos = GetRandomPos();
-        pathFinder.SetDestination(startPos);
+        pathFinder.SetDestination(nextPos);
     }
 
     private void MoveToPos(Vector3 pos)
@@ -249,7 +279,7 @@ public class Enemy : LivingEntity
         if (gauge >= maxGauge)
         {
             state = State.Trace;
-            pathFinder.speed = 2;
+            pathFinder.speed = runSpeed; // 2;
         }
         //Debug.Log(gauge);
     }
@@ -269,6 +299,34 @@ public class Enemy : LivingEntity
         return transform.position;
     }
 
+    private void SetNextPos()
+    {
+        if(isReversing)
+        {
+            nextWayPointIndex--;
+
+            if(nextWayPointIndex < 0 )
+            {
+                nextWayPointIndex = 1;
+                isReversing = false;
+            }
+        }
+        else
+        {
+            nextWayPointIndex++;
+
+            if(nextWayPointIndex >= wayPointCount)
+            {
+                nextWayPointIndex = wayPointCount - 2;
+
+                if (nextWayPointIndex < 0)
+                    nextWayPointIndex = 0;
+                isReversing = true;
+            }
+        }
+        nextPos = WayPoints[nextWayPointIndex];
+    }
+
     private void TimerUp()
     {
         targetTimer += Time.deltaTime;
@@ -276,6 +334,18 @@ public class Enemy : LivingEntity
         if (targetTimer >= targetTime)
         {
             target = null;
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if(state == State.Trace)
+        {
+            if (Time.time > lastAttackTime + timeBetAttack && other.gameObject == target.gameObject && !dead)
+            {
+                lastAttackTime = Time.time;
+                target.OnDamage(damage);
+            }
         }
     }
 }

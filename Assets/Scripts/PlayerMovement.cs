@@ -41,6 +41,18 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if(Input.GetKey(KeyCode.LeftShift))
+        {
+            moveSpeed = 10;
+            //playerAnimator.SetFloat("Speed", moveSpeed);
+        }
+        else
+        {
+            moveSpeed = 5;
+        }
+
+        playerAnimator.SetFloat("Speed", moveSpeed);
+
         var forward = worldCam.transform.forward;
         forward.y = 0f;
         forward.Normalize();

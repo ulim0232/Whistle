@@ -66,15 +66,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2277819562345894275, guid: 69c8af6276a9203448ffe010fbbf7af3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 24.24
+      value: 0.03
       objectReference: {fileID: 0}
     - target: {fileID: 2277819562345894275, guid: 69c8af6276a9203448ffe010fbbf7af3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.97
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2277819562345894275, guid: 69c8af6276a9203448ffe010fbbf7af3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 40.34
+      value: 7.86
       objectReference: {fileID: 0}
     - target: {fileID: 2277819562345894275, guid: 69c8af6276a9203448ffe010fbbf7af3, type: 3}
       propertyPath: m_LocalRotation.w
@@ -174,7 +174,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2277819562346384803, guid: 69c8af6276a9203448ffe010fbbf7af3, type: 3}
       propertyPath: m_Name
-      value: Worker Variant
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 2277819562346384803, guid: 69c8af6276a9203448ffe010fbbf7af3, type: 3}
       propertyPath: m_Layer
@@ -277,6 +277,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2277819562346384803, guid: 69c8af6276a9203448ffe010fbbf7af3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4806268429636562710}
+    - targetCorrespondingSourceObject: {fileID: 2277819562346384803, guid: 69c8af6276a9203448ffe010fbbf7af3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5669845554357015138}
   m_SourcePrefab: {fileID: 100100000, guid: 69c8af6276a9203448ffe010fbbf7af3, type: 3}
 --- !u!1 &3831381571110313189 stripped
 GameObject:
@@ -329,7 +332,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.32
+  m_Radius: 0.5
   m_Height: 1.85
   m_Direction: 1
   m_Center: {x: 0, y: 0.92, z: 0}
@@ -396,6 +399,19 @@ MonoBehaviour:
   bookLayer:
     serializedVersion: 2
     m_Bits: 256
+--- !u!114 &5669845554357015138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3831381571110313189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8419b16d88dcc724aa446e838bb8af7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingHealth: 100
 --- !u!4 &3831381571110535365 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2277819562345894275, guid: 69c8af6276a9203448ffe010fbbf7af3, type: 3}
