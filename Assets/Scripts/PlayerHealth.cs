@@ -46,6 +46,7 @@ public class PlayerHealth : LivingEntity
         // LivingEntity의 OnDamage() 실행(데미지 적용)
         base.OnDamage(damage);
         Debug.Log(health);
+        UIManager.instance.SetHeathBar(health);
     }
 
     // 사망 처리

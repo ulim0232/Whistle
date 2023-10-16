@@ -63,6 +63,9 @@ public class Enemy : LivingEntity
     private float soundRadius = 5f;
 
     public float damage = 10f;
+
+    //애니메이션
+    public Animator enemyAnimator;
     private bool hasTarget
     {
         get
@@ -88,13 +91,32 @@ public class Enemy : LivingEntity
             WayPoints[i] = WayPointTransforms[i].position;
         }
         nextPos = WayPoints[nextWayPointIndex];
+        enemyAnimator = GetComponent<Animator>();
     }
 
     private void Update()
     {
         if (dead) return; //죽으면 업데이트X
 
-        if(isWatingReset)
+        if(GameManager.instance != null) //게임 오버되면 업데이트x
+        {
+            if(GameManager.instance.isGameover)
+            {
+                return;
+            }
+        }
+        if (pathFinder.isStopped)
+        {
+            enemyAnimator.SetFloat("MOVE", 0f);
+        }
+        else
+        {
+            enemyAnimator.SetFloat("MOVE", 1f);
+        }
+        enemyAnimator.SetFloat("SPEED", pathFinder.speed);
+
+
+        if (isWatingReset)
         {
             resetTimer += Time.deltaTime;
             //Debug.Log(resetTimer);
@@ -341,10 +363,14 @@ public class Enemy : LivingEntity
     {
         if(state == State.Trace)
         {
+            //pathFinder.isStopped = true;
+            //enemyAnimator.SetFloat("MOVE", 0.1f);
             if (Time.time > lastAttackTime + timeBetAttack && other.gameObject == target.gameObject && !dead)
             {
                 lastAttackTime = Time.time;
                 target.OnDamage(damage);
+                enemyAnimator.SetTrigger("ATTACK");
+                
             }
         }
     }
@@ -361,6 +387,7 @@ public class Enemy : LivingEntity
     {
         // LivingEntity의 Die() 실행(사망 적용)
         base.Die();
+        enemyAnimator.SetTrigger("DIE");
         //playerAnimator.SetTrigger("Die");
         //playerMovement.enabled = false;
         //playerAnimator.SetTrigger("Die");

@@ -11,7 +11,7 @@ public class PlayerAttack : MonoBehaviour
     public float damage = 10;
 
     private float lastAttackTime = 0;
-    private float timeBetAttack = 1f;
+    private float timeBetAttack = 2f;
 
     private void Awake()
     {
@@ -23,7 +23,10 @@ public class PlayerAttack : MonoBehaviour
     {
         if(playerInput.fire)
         {
-            //Debug.Log("fire");
+            if (!playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+            {
+                playerAnimator.SetTrigger("Attack");
+            }
         }
     }
 
@@ -31,13 +34,14 @@ public class PlayerAttack : MonoBehaviour
     {
         if(playerInput.fire)
         {
-            if(other.gameObject.tag == "Enemy")
+           
+            if (other.gameObject.tag == "Enemy")
             {
                 if (Time.time > lastAttackTime + timeBetAttack)
                 {
                     lastAttackTime = Time.time;
                     other.gameObject.GetComponent<LivingEntity>().OnDamage(damage);
-                    //playerAnimator.SetTrigger("Attack");
+                    
                 }
             }
         }

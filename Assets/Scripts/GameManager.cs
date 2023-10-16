@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
 
     private static GameManager m_instance; // 싱글톤이 할당될 static 변수
 
-    private int score = 0; // 현재 게임 점수
+    public int score { get; private set; } // 현재 게임 점수
     public bool isGameover { get; private set; } // 게임 오버 상태
 
     private void Awake()
@@ -39,15 +39,16 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-
+        FindObjectOfType<PlayerHealth>().onDeath += EndGame;
+        score = 0;
     }
 
     private void Update()
     {
-        if (score >= 4)
-        {
-            EndGame();
-        }
+        //if (score >= 4)
+        //{
+        //    ClearGame();
+        //}
 
         if(!isGameover)
         {
@@ -60,6 +61,11 @@ public class GameManager : MonoBehaviour
             {
                 UIManager.instance.SetActiveControlUI(false);
             }
+        }
+
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            AddScore(4);
         }
     }
 
@@ -76,11 +82,16 @@ public class GameManager : MonoBehaviour
     }
 
     // 게임 오버 처리
-    public void EndGame()
+    public void ClearGame()
     {
-        // 게임 오버 상태를 참으로 변경
         isGameover = true;
         UIManager.instance.SetActiveGameclearUI(true);
+    }
+
+    public void EndGame()
+    {
+        isGameover = true;
+        UIManager.instance.SetAcitveGameOverUI(true);
     }
 
     public void ReStart()

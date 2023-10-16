@@ -34,8 +34,11 @@ public class UIManager : MonoBehaviour
 
     public TextMeshProUGUI interactTxt;
     public Slider dataProgress;
+    public Slider healthBar;
     public GameObject gameClearUI; // 게임 오버시 활성화할 UI 
     public GameObject controlUI;
+    public GameObject gameOverUI;
+    
 
     //private void Start()
     //{
@@ -87,6 +90,11 @@ public class UIManager : MonoBehaviour
         dataProgress.value = value;
     }
 
+    public void SetHeathBar(float value)
+    {
+        healthBar.value = value;
+    }
+
     public void SetActiveGameclearUI(bool active)
     {
         gameClearUI.SetActive(active);
@@ -97,35 +105,9 @@ public class UIManager : MonoBehaviour
         controlUI.SetActive(active);
     }
 
-//    public void OnButtonClick(string msg)
-//    {
-//        Debug.Log($"버튼 눌림 : {msg}");
-//    }
-
-//    public void OnStartClick()
-//    {
-//        Main.SetActive(false);
-//        Stage.SetActive(true);
-//    }
-
-//    public void OnExitClick()
-//    {
-//#if     UNITY_EDITOR
-//        UnityEditor.EditorApplication.isPlaying = false;
-//#else
-//				Application.Quit();
-//#endif
-//    }
-
-//    public void OnBackClick()
-//    {
-//        Main.SetActive(true);
-//        Stage.SetActive(false);
-//    }
-
-//    public void OnStage1Click()
-//    {
-//        SceneManager.LoadScene("Develop");
-//    }
+    public void SetAcitveGameOverUI(bool active)
+    {
+        gameOverUI.SetActive(active);
+    }
 
 }

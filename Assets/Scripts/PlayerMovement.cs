@@ -8,6 +8,8 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 5f; // 앞뒤 움직임의 속도
     public float rotateSpeed = 360f; // 좌우 회전 속도
     public float jumpForce = 5f;
+    public float runSpeed = 6;
+    public float walkSpeed = 3;
 
     private Vector3 direction;
     private bool isJumping = false;
@@ -41,14 +43,18 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if(playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+        {
+            return;
+        }
         if(Input.GetKey(KeyCode.LeftShift))
         {
-            moveSpeed = 10;
+            moveSpeed = runSpeed;
             //playerAnimator.SetFloat("Speed", moveSpeed);
         }
         else
         {
-            moveSpeed = 5;
+            moveSpeed = walkSpeed;
         }
 
         playerAnimator.SetFloat("Speed", moveSpeed);
