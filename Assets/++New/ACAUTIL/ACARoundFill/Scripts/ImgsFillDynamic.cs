@@ -8,7 +8,7 @@ public class ImgsFillDynamic : MonoBehaviour
     float BeforeValue = 0F;
     float TargetValue = 0F;
 
-    float speed1 = 1500f;
+    //float speed1 = 1500f;
     float speed = 1F;
     float nowTime = 0F;
 
@@ -47,7 +47,7 @@ public class ImgsFillDynamic : MonoBehaviour
         else
         {
             this.nowTime = 0F;
-            this.speed = _duringSpeed/speed1;
+            this.speed = _duringSpeed; ///speed1;
         }
 
     }

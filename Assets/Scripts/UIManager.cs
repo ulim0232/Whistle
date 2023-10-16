@@ -38,7 +38,9 @@ public class UIManager : MonoBehaviour
     public GameObject gameClearUI; // 게임 오버시 활성화할 UI 
     public GameObject controlUI;
     public GameObject gameOverUI;
-    
+    public TextMeshProUGUI TimeTxt;
+    public ImgsFillDynamic dataBar; // ImgsFD;
+
 
     //private void Start()
     //{
@@ -82,12 +84,14 @@ public class UIManager : MonoBehaviour
 
     public void SetActivePorgressUI(bool active)
     {
-        dataProgress.gameObject.SetActive(active);
+        //dataProgress.gameObject.SetActive(active);
+        dataBar.gameObject.SetActive(active);
     }
 
     public void SetDataProgress(float value)
     {
-        dataProgress.value = value;
+        //dataProgress.value = value;
+        dataBar.SetValue(value/100, true);
     }
 
     public void SetHeathBar(float value)
@@ -110,4 +114,12 @@ public class UIManager : MonoBehaviour
         gameOverUI.SetActive(active);
     }
 
+    public void SetTimerTxt(float text)
+    {
+        int minutes = Mathf.FloorToInt(text / 60);
+        int seconds = Mathf.FloorToInt(text % 60);
+
+        // 시간을 텍스트로 표시 (분:초)
+        TimeTxt.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+    }
 }

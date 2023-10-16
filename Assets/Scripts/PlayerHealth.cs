@@ -7,6 +7,7 @@ public class PlayerHealth : LivingEntity
     private Animator playerAnimator; // 플레이어의 애니메이터
 
     private PlayerMovement playerMovement; // 플레이어 움직임 컴포넌트
+    public float playerStartingHealth = 30f;
 
     private void Awake()
     {
@@ -21,6 +22,7 @@ public class PlayerHealth : LivingEntity
 
         //죽은 후 재시작하면 false 일 수 있기 때문에 true로 세팅해줌
         playerMovement.enabled = true;
+        health = playerStartingHealth;
     }
 
     private void Update()

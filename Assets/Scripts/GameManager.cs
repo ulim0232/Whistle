@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
 
     public int score { get; private set; } // 현재 게임 점수
     public bool isGameover { get; private set; } // 게임 오버 상태
+    public float gameOverTime { get; private set; }
+    public float timer = 0;
 
     private void Awake()
     {
@@ -41,6 +43,9 @@ public class GameManager : MonoBehaviour
     {
         FindObjectOfType<PlayerHealth>().onDeath += EndGame;
         score = 0;
+        Cursor.visible = false;
+        gameOverTime = 300f;
+        timer = gameOverTime;
     }
 
     private void Update()
@@ -60,6 +65,13 @@ public class GameManager : MonoBehaviour
             if (Input.GetKeyUp(KeyCode.Tab))
             {
                 UIManager.instance.SetActiveControlUI(false);
+            }
+            timer -= Time.deltaTime;
+            UIManager.instance.SetTimerTxt(timer);
+
+            if(timer < 0)
+            {
+                EndGame();
             }
         }
 
