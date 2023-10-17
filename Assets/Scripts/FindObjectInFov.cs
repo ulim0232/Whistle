@@ -5,14 +5,17 @@ public class FindObjectInFov : MonoBehaviour
     public string doorTag = "LockDoor";
     private Camera mainCamera;
     private float rayLength = 6f; // 레이의 길이 (조정 가능)  
+    private float npcRayLength = 10f;
     public LayerMask targetLayer;
     public LayerMask bookLayer;
     public LayerMask keyLayer;
     public LayerMask doorLayer;
+    public LayerMask NPCLayer;
     public GameObject hitObject { get; private set; }
     public GameObject bookObject { get; private set; }
     public GameObject keyObject { get; private set; }
     public GameObject doorObject { get; private set; }
+    public GameObject NPCObject { get; private set; }
 
     void Start()
     {
@@ -32,6 +35,7 @@ public class FindObjectInFov : MonoBehaviour
             bookObject = null;
             keyObject = null;
             doorObject = null;
+            NPCObject = null;
 
             Ray ray = new Ray(mainCamera.transform.position, mainCamera.transform.forward);
             RaycastHit hit;
@@ -53,6 +57,12 @@ public class FindObjectInFov : MonoBehaviour
             {
                 doorObject = hit.transform.gameObject;
                 Debug.Log("LockDoor");
+            }
+
+            if (Physics.Raycast(ray, out hit, npcRayLength, NPCLayer))
+            {
+                NPCObject = hit.transform.gameObject;
+                Debug.Log("NPC");
             }
             //if(Physics.Raycast(ray, out hit, rayLength))
             //{

@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
-            AddScore(4);
+            AddScore(6);
         }
     }
 

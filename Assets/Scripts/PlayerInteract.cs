@@ -59,6 +59,10 @@ public class PlayerInteract : MonoBehaviour
                 }
 
             }
+            else if(findObjectInFov.NPCObject != null)
+            {
+                UIManager.instance.SetActiveNPC();
+            }
             else
             {
                 Debug.Log("hitObject null");

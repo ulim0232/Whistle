@@ -30,6 +30,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI TimeTxt;
     public Michsky.MUIP.ProgressBar dataBar; // ImgsFD;
     public Michsky.MUIP.NotificationManager notification;
+    public Michsky.MUIP.NotificationManager npcNotification;
     //public Michsky.MUIP.RangeSlider healthBar;
 
 
@@ -131,5 +132,10 @@ public class UIManager : MonoBehaviour
     public void AcitveNeedKey()
     {
         notification.Open();
+    }
+
+    public void SetActiveNPC()
+    {
+        npcNotification.Open();
     }
 }
