@@ -13,6 +13,9 @@ TagManager:
   - button f1
   - button f6
   - Enemy
+  - Book
+  - Key
+  - LockDoor
   layers:
   - Default
   - TransparentFX
@@ -24,8 +27,8 @@ TagManager:
   - Player
   - Book
   - Door
-  - 
-  - 
+  - Key
+  - LockDoor
   - 
   - 
   - 

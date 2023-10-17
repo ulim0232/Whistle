@@ -2,10 +2,16 @@ using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
 {
-    public MissionData interactObj;
     private PlayerInput playerinput;
+
     private FindObjectInFov findObjectInFov;
+
+    public MissionData interactObj;
     public GameObject bookObj;
+    public GameObject keyObj;
+    public GameObject doorObj;
+
+    private bool hasKey = false;
 
     private void Start()
     {
@@ -30,42 +36,36 @@ public class PlayerInteract : MonoBehaviour
                 interactObj = findObjectInFov.hitObject.GetComponent<MissionData>();
                 CollectionData();
             }
-            else if (findObjectInFov.bookObject!=null)
+            else if (findObjectInFov.bookObject != null)
             {
                 bookObj = findObjectInFov.bookObject;
                 GetBookData();
+            }
+            else if(findObjectInFov.keyObject != null)
+            {
+                keyObj = findObjectInFov.keyObject;
+                GetKey();
+            }
+            else if(findObjectInFov.doorObject != null)
+            {
+                doorObj = findObjectInFov.doorObject;
+                if(hasKey)
+                {
+                    DoorOpen();
+                }
+                else
+                {
+                    UIManager.instance.AcitveNeedKey();
+                }
+
             }
             else
             {
                 Debug.Log("hitObject null");
                 return;
             }
+
         }
-                
-            //else // 상호 작용 가능한 오브젝트가 조준점에 들어오지 않았음
-            //{
-            //    Debug.Log("hitObject null");
-            //    return;
-            //}
-            //if(interactObj.isCapturing || interactObj.isCaptured) //캡쳐 중인 오브젝트에 상호작용 재시도 or 이미 수집 완료된상태 -> 아무일도 하지 않음
-            //{
-            //    return;
-            //}
-            //if (interactObj != null)
-            //{
-            //    if(interactObj.isPaused)
-            //    {
-            //        interactObj.ResumeCapture();
-            //    }
-            //    else
-            //    {
-            //        interactObj.StartCapture();
-            //    }
-            //}
-            //else
-            //{
-            //    Debug.Log("don't exist obj");
-            //}
     
 
         if(interactObj != null)
@@ -105,5 +105,16 @@ public class PlayerInteract : MonoBehaviour
     {
         GameManager.instance.AddScore(1);
         bookObj.SetActive(false);
+    }
+
+    public void GetKey()
+    {
+        keyObj.SetActive(false);
+        hasKey = true;
+    }
+
+    public void DoorOpen()
+    {
+        doorObj.GetComponent<Door>().ActionDoor();
     }
 }

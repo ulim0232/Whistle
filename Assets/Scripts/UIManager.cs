@@ -6,17 +6,6 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    // 버튼을 연결할 변수
-    //public Button startButton;
-    //public Button optionButton;
-    //public Button exitButton;
-    //public Button backButton;
-    //public Button stage1Button;
-
-
-    //public GameObject Main;
-    //public GameObject Stage;
-    //private UnityAction action;
     public static UIManager instance
     {
         get
@@ -33,13 +22,15 @@ public class UIManager : MonoBehaviour
     private static UIManager m_instance; // 싱글톤이 할당될 변수
 
     public TextMeshProUGUI interactTxt;
-    public Slider dataProgress;
+    //public Slider dataProgress;
     public Slider healthBar;
     public GameObject gameClearUI; // 게임 오버시 활성화할 UI 
     public GameObject controlUI;
     public GameObject gameOverUI;
     public TextMeshProUGUI TimeTxt;
-    public ImgsFillDynamic dataBar; // ImgsFD;
+    public Michsky.MUIP.ProgressBar dataBar; // ImgsFD;
+    public Michsky.MUIP.NotificationManager notification;
+    //public Michsky.MUIP.RangeSlider healthBar;
 
 
     //private void Start()
@@ -77,6 +68,14 @@ public class UIManager : MonoBehaviour
         //stage1Button.onClick.AddListener(() => OnButtonClick(stage1Button.name));
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            AcitveNeedKey();
+        }
+    }
+
     public void SetActiveInteractUI(bool active)
     {
         interactTxt.gameObject.SetActive(active);
@@ -91,7 +90,8 @@ public class UIManager : MonoBehaviour
     public void SetDataProgress(float value)
     {
         //dataProgress.value = value;
-        dataBar.SetValue(value/100, true);
+        dataBar.ChangeValue(value);
+        //dataBar.SetValue(value/100, true);
     }
 
     public void SetHeathBar(float value)
@@ -121,5 +121,15 @@ public class UIManager : MonoBehaviour
 
         // 시간을 텍스트로 표시 (분:초)
         TimeTxt.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+    }
+
+    public void TestONClick()
+    {
+        Debug.Log("click");
+    }
+
+    public void AcitveNeedKey()
+    {
+        notification.Open();
     }
 }
