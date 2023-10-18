@@ -31,6 +31,7 @@ public class UIManager : MonoBehaviour
     public Michsky.MUIP.ProgressBar dataBar; // ImgsFD;
     public Michsky.MUIP.NotificationManager notification;
     public Michsky.MUIP.NotificationManager npcNotification;
+    public GameObject menuList;
     //public Michsky.MUIP.RangeSlider healthBar;
 
 
@@ -137,5 +138,15 @@ public class UIManager : MonoBehaviour
     public void SetActiveNPC()
     {
         npcNotification.Open();
+    }
+
+    public void LoadTitle()
+    {
+        SceneManager.LoadScene("MainTitleUI");
+    }
+
+    public void SetActiveMenuList(bool isActive)
+    {
+        menuList.SetActive(isActive);
     }
 }

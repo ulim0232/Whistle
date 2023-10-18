@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     public bool isGameover { get; private set; } // 게임 오버 상태
     public float gameOverTime { get; private set; }
     public float timer = 0;
+    public GameObject menuList;
 
     private void Awake()
     {
@@ -43,7 +44,7 @@ public class GameManager : MonoBehaviour
     {
         FindObjectOfType<PlayerHealth>().onDeath += EndGame;
         score = 0;
-        Cursor.visible = false;
+        //Cursor.visible = false;
         gameOverTime = 300f;
         timer = gameOverTime;
     }
@@ -103,11 +104,24 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         isGameover = true;
-        UIManager.instance.SetAcitveGameOverUI(true);
+        SceneManager.LoadScene("Sad");
+        //UIManager.instance.SetAcitveGameOverUI(true);
     }
 
     public void ReStart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void SetMenuList()
+    {
+        if (menuList.activeSelf)
+        {
+            UIManager.instance.SetActiveMenuList(false);
+        }
+        else
+        {
+            UIManager.instance.SetActiveMenuList(true);
+        }
     }
 }

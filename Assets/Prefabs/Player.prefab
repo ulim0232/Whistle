@@ -39,7 +39,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1285691694452307070}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 91c6af13e15ffb34080c24119b7f76d2, type: 3}
   m_Name: 
@@ -66,15 +66,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2277819562345894275, guid: 69c8af6276a9203448ffe010fbbf7af3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.03
+      value: 26.96
       objectReference: {fileID: 0}
     - target: {fileID: 2277819562345894275, guid: 69c8af6276a9203448ffe010fbbf7af3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 2277819562345894275, guid: 69c8af6276a9203448ffe010fbbf7af3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 7.86
+      value: 24.37
       objectReference: {fileID: 0}
     - target: {fileID: 2277819562345894275, guid: 69c8af6276a9203448ffe010fbbf7af3, type: 3}
       propertyPath: m_LocalRotation.w
@@ -280,6 +280,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2277819562346384803, guid: 69c8af6276a9203448ffe010fbbf7af3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5669845554357015138}
+    - targetCorrespondingSourceObject: {fileID: 2277819562346384803, guid: 69c8af6276a9203448ffe010fbbf7af3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2752887408234326123}
+    - targetCorrespondingSourceObject: {fileID: 2277819562346384803, guid: 69c8af6276a9203448ffe010fbbf7af3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 442294402359774972}
   m_SourcePrefab: {fileID: 100100000, guid: 69c8af6276a9203448ffe010fbbf7af3, type: 3}
 --- !u!1 &3831381571110313189 stripped
 GameObject:
@@ -296,7 +302,7 @@ Rigidbody:
   serializedVersion: 4
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: Infinity
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -312,7 +318,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 80
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!136 &2477324037189847388
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -332,10 +338,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.4
   m_Height: 1.85
   m_Direction: 1
-  m_Center: {x: 0, y: 0.92, z: 0}
+  m_Center: {x: 0, y: 0.91, z: 0}
 --- !u!114 &5054460803796143513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -361,9 +367,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baab30669a8422f4081227d272f56411, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 3
   rotateSpeed: 360
   jumpForce: 5
+  runSpeed: 6
+  walkSpeed: 3
   layerMask:
     serializedVersion: 2
     m_Bits: 0
@@ -381,6 +389,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactObj: {fileID: 0}
   bookObj: {fileID: 0}
+  keyObj: {fileID: 0}
+  doorObj: {fileID: 0}
 --- !u!114 &4806268429636562710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,12 +403,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44aa253e53c225242891f2d63e36fdb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doorTag: LockDoor
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
   bookLayer:
     serializedVersion: 2
     m_Bits: 256
+  keyLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  doorLayer:
+    serializedVersion: 2
+    m_Bits: 2048
+  NPCLayer:
+    serializedVersion: 2
+    m_Bits: 4096
 --- !u!114 &5669845554357015138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -412,6 +432,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 100
+  playerStartingHealth: 30
+--- !u!114 &2752887408234326123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3831381571110313189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5bc8c620a628cb4fab5a7fffbb25e1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+--- !u!65 &442294402359774972
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3831381571110313189}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 1, z: 0.51}
 --- !u!4 &3831381571110535365 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2277819562345894275, guid: 69c8af6276a9203448ffe010fbbf7af3, type: 3}

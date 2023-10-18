@@ -33,11 +33,15 @@ public class Enemy : LivingEntity
     private float lastAttackTime = 0;
     private float timeBetAttack = 2f;
 
+    private float wakeUptime = 30f;
+
     //게이지
     public float gauge = 0; //위험 게이지
     private float maxGauge = 100f;
+    public Michsky.MUIP.ProgressBar gaugeBar;
 
-    private float rate = 15f; //초당 오르는 게이지 값
+    public float rate = 15f; //초당 오르는 게이지 값
+    private Transform player;
 
     //위치
     public Vector3 nextPos; //다음 이동 위치
@@ -52,12 +56,14 @@ public class Enemy : LivingEntity
     NavMeshAgent pathFinder; //추적 루트에 사용
     public FieldOfView fieldOfView;
     public LayerMask targetLayer;
+    public Rigidbody rigidbody;
 
     //bool
     private bool isWaiting = false;
     private bool hasTargetInFOV = false;
     private bool isWatingReset = false;
     private bool isReversing = false;
+    private bool isWakeUp = false;
 
     //소리감지
     private float soundRadius = 5f;
@@ -92,6 +98,9 @@ public class Enemy : LivingEntity
         }
         nextPos = WayPoints[nextWayPointIndex];
         enemyAnimator = GetComponent<Animator>();
+        rigidbody = GetComponent<Rigidbody>();
+        player = GameObject.FindWithTag("Player").transform;
+        //gaugeBar = gameObject.GetComponent< Michsky.MUIP.ProgressBar>();
     }
 
     private void Update()
@@ -105,18 +114,25 @@ public class Enemy : LivingEntity
                 return;
             }
         }
-        if (pathFinder.isStopped)
-        {
-            enemyAnimator.SetFloat("MOVE", 0f);
-        }
-        else
+        if (pathFinder.remainingDistance >= pathFinder.stoppingDistance)
         {
             enemyAnimator.SetFloat("MOVE", 1f);
         }
+        else
+        {
+            enemyAnimator.SetFloat("MOVE", 0f);
+        }
+        //if (pathFinder.isStopped)
+        //{
+        //    enemyAnimator.SetFloat("MOVE", 0f);
+        //}
+        //else
+        //{
+        //    enemyAnimator.SetFloat("MOVE", 1f);
+        //}
         enemyAnimator.SetFloat("SPEED", pathFinder.speed);
 
-
-        if (isWatingReset)
+        if (isWatingReset && !isWakeUp)
         {
             resetTimer += Time.deltaTime;
             //Debug.Log(resetTimer);
@@ -146,6 +162,17 @@ public class Enemy : LivingEntity
                 TraceUpdate();
                 break;
         }
+
+        if (enemyAnimator.GetCurrentAnimatorStateInfo(0).IsName("ATTACK"))
+        {
+            pathFinder.isStopped = true;
+        }
+
+        gaugeBar.ChangeValue(gauge);
+        gaugeBar.gameObject.transform.LookAt(player);
+        Vector3 currentRotation = transform.rotation.eulerAngles;
+        gaugeBar.gameObject.transform.rotation = Quaternion.Euler(0f, currentRotation.y * -1f, 0f);
+        //Debug.Log(pathFinder.isStopped);
 
     }
 
@@ -182,6 +209,7 @@ public class Enemy : LivingEntity
             else
             {
                 state = State.Doubt;
+                pathFinder.isStopped = true;
             }
             SetNextPos();
             //nextWayPointIndex++;
@@ -215,7 +243,17 @@ public class Enemy : LivingEntity
         {
             GaugeUp();
         }
+
         MoveToPos(target.transform.position);
+        //Debug.Log(pathFinder.remainingDistance);
+        //if (pathFinder.remainingDistance >= pathFinder.stoppingDistance)
+        //{
+        //    MoveToPos(target.transform.position);
+        //}
+        //else
+        //{
+        //    pathFinder.isStopped = true;
+        //}
     }
 
     private void TraceUpdate()
@@ -228,6 +266,14 @@ public class Enemy : LivingEntity
             return;
         }
         MoveToPos(target.transform.position);
+        //if (pathFinder.remainingDistance >= pathFinder.stoppingDistance)
+        //{
+        //    MoveToPos(target.transform.position);
+        //}
+        //else
+        //{
+        //    pathFinder.isStopped = true;
+        //}
     }
 
     private IEnumerator WaitForWalk() //3초 대기 후 워크 상태로 이동
@@ -240,6 +286,11 @@ public class Enemy : LivingEntity
         pathFinder.SetDestination(nextPos);
     }
 
+    private IEnumerator WaitForWakeUp()
+    {
+        yield return new WaitForSeconds(wakeUptime);
+        OnEnable();
+    }
     private void MoveToPos(Vector3 pos)
     {
         pathFinder.isStopped = false;
@@ -300,6 +351,7 @@ public class Enemy : LivingEntity
         }
         if (gauge >= maxGauge)
         {
+            gauge = maxGauge;
             state = State.Trace;
             pathFinder.speed = runSpeed; // 2;
         }
@@ -367,6 +419,7 @@ public class Enemy : LivingEntity
             //enemyAnimator.SetFloat("MOVE", 0.1f);
             if (Time.time > lastAttackTime + timeBetAttack && other.gameObject == target.gameObject && !dead)
             {
+                //pathFinder.isStopped = true;
                 lastAttackTime = Time.time;
                 target.OnDamage(damage);
                 enemyAnimator.SetTrigger("ATTACK");
@@ -382,12 +435,22 @@ public class Enemy : LivingEntity
         Debug.Log($"enemy health: {health}");
     }
 
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        isWakeUp = true;
+        enemyAnimator.SetTrigger("WAKE");
+        target = null;
+        state = State.Idle;
+    }
+
     // 사망 처리
     public override void Die()
     {
         // LivingEntity의 Die() 실행(사망 적용)
         base.Die();
-        enemyAnimator.SetTrigger("DIE");
+        enemyAnimator.SetTrigger("DIE"); 
+        StartCoroutine(WaitForWakeUp());
         //playerAnimator.SetTrigger("Die");
         //playerMovement.enabled = false;
         //playerAnimator.SetTrigger("Die");

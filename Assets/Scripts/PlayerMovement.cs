@@ -76,39 +76,40 @@ public class PlayerMovement : MonoBehaviour
         }
         playerAnimator.SetFloat("Move", direction.magnitude);
 
-        if(Input.GetKeyDown(KeyCode.Space)) 
-        {
-            if (isJumping)
-            {
-                return;
-            }
-            Jump();
-        }
+        //if(Input.GetKeyDown(KeyCode.Space)) 
+        //{
+        //    if (isJumping)
+        //    {
+        //        return;
+        //    }
+        //    Jump();
+        //}
     }
 
     // 입력값에 따라 캐릭터를 앞뒤로 움직임
     private void Move()
     {
-        //if (playerInteract.interactObj != null) //이동하면 캡쳐 일시정지
-        //{
-        //    if(playerInteract.interactObj.isCapturing)
-        //    {
-        //        playerInteract.interactObj.PauseCapture();
-        //    }
-        //}
         var position = playerRigidbody.position;
 
         position += direction * moveSpeed * Time.deltaTime;
         playerRigidbody.MovePosition(position);
+        //Debug.Log($"Move{position}");
     }
 
     // 입력값에 따라 캐릭터를 좌우로 회전
     private void Rotate()
     {
-        if(direction != Vector3.zero)
+        if (direction != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+            //if (Mathf.Sign(direction.x) != Mathf.Sign(transform.position.x) || Mathf.Sign(direction.z) != Mathf.Sign(transform.position.z))
+            //{
+            //    transform.Rotate(0, 1, 0);
+            //}
+            //transform.forward = Vector3.Lerp(transform.forward, direction, rotateSpeed * Time.deltaTime);
+
+            //Debug.Log($"rotate{targetRotation}");
         }
     }
 
