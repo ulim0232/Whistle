@@ -66,9 +66,12 @@ public class Enemy : LivingEntity
     private bool isWakeUp = false;
 
     //소리감지
-    private float soundRadius = 5f;
+    public float soundRadius = 5f;
+    public float nearRadius = 3f; //근접 3유닛은 원통형으로 검사함
 
     public float damage = 10f;
+
+    public string playerTag = "Player";
 
     //애니메이션
     public Animator enemyAnimator;
@@ -99,7 +102,7 @@ public class Enemy : LivingEntity
         nextPos = WayPoints[nextWayPointIndex];
         enemyAnimator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody>();
-        player = GameObject.FindWithTag("Player").transform;
+        player = GameObject.FindWithTag(playerTag).transform;
         //gaugeBar = gameObject.GetComponent< Michsky.MUIP.ProgressBar>();
     }
 
@@ -114,6 +117,7 @@ public class Enemy : LivingEntity
                 return;
             }
         }
+
         if (pathFinder.remainingDistance >= pathFinder.stoppingDistance)
         {
             enemyAnimator.SetFloat("MOVE", 1f);
@@ -171,7 +175,7 @@ public class Enemy : LivingEntity
         gaugeBar.ChangeValue(gauge);
         gaugeBar.gameObject.transform.LookAt(player);
         Vector3 currentRotation = transform.rotation.eulerAngles;
-        gaugeBar.gameObject.transform.rotation = Quaternion.Euler(0f, currentRotation.y * -1f, 0f);
+        gaugeBar.gameObject.transform.rotation = Quaternion.Euler(0f, currentRotation.y, 0f);
         //Debug.Log(pathFinder.isStopped);
 
     }
@@ -209,7 +213,7 @@ public class Enemy : LivingEntity
             else
             {
                 state = State.Doubt;
-                pathFinder.isStopped = true;
+                //pathFinder.isStopped = true;
             }
             SetNextPos();
             //nextWayPointIndex++;
@@ -293,6 +297,16 @@ public class Enemy : LivingEntity
     }
     private void MoveToPos(Vector3 pos)
     {
+        //transform.LookAt(pos);
+        Vector3 lookDirection = (pos - transform.position).normalized;
+
+        // 서서히 회전할 속도 설정
+        float rotationSpeed = 5f;
+
+        // 현재 방향을 서서히 목표 방향으로 보간
+        Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+
         pathFinder.isStopped = false;
         pathFinder.SetDestination(pos);
     }
@@ -315,6 +329,7 @@ public class Enemy : LivingEntity
             hasTargetInFOV = false;
             if (state == State.Trace)
             {
+                //trace 상태에서는 장애물들을 무시하고 범의 내의 플레이어를 찾음
                 Collider[] colliders = Physics.OverlapSphere(transform.position, soundRadius, targetLayer);
                 bool isTarget = false;
 
@@ -324,6 +339,7 @@ public class Enemy : LivingEntity
                     if(livingEntity != null )
                     {
                         isTarget = true;
+                        target = livingEntity.GetComponent<LivingEntity>();
                     }
                 }
 
@@ -338,9 +354,44 @@ public class Enemy : LivingEntity
             }
             else
             {
-                TimerUp();
+                if(!FindNearTarget())
+                {
+                    TimerUp();
+                }
             }
         }
+    }
+
+    private bool FindNearTarget()
+    {
+        //Collider[] colliders = Physics.OverlapSphere(transform.position, nearRadius);
+        //foreach (Collider collider in colliders)
+        //{
+        //    if (collider.tag == playerTag)
+        //    {
+        //        target = collider.GetComponent<LivingEntity>();
+        //        targetTimer = 0f;
+        //        Debug.Log("FindNearTarget");
+        //        return true;
+        //    }
+        //}
+
+        //return false;
+
+        RaycastHit[] hits = Physics.SphereCastAll(transform.position, nearRadius, Vector3.forward, 0);
+
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.collider.CompareTag(playerTag))
+            {
+                target = hit.collider.GetComponent<LivingEntity>();
+                targetTimer = 0f;
+                Debug.Log("FindNearTarget");
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void GaugeUp()
@@ -356,21 +407,6 @@ public class Enemy : LivingEntity
             pathFinder.speed = runSpeed; // 2;
         }
         //Debug.Log(gauge);
-    }
-
-    private Vector3 GetRandomPos()
-    {
-        Vector3 randomDirection = Random.insideUnitSphere * 5;
-        randomDirection += transform.position;
-        NavMeshHit hit;
-
-        if (NavMesh.SamplePosition(randomDirection, out hit, 5, NavMesh.AllAreas))
-        {
-            return hit.position;
-        }
-
-        // 실패한 경우 다시 시도하거나 예외 처리
-        return transform.position;
     }
 
     private void SetNextPos()
