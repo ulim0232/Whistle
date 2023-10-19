@@ -17,6 +17,8 @@ public class MissionData : MonoBehaviour
     private float outlineDis = 3f;
     public bool hasCompletedCapture = false;
 
+    GameManager.MissionType type { get; } = GameManager.MissionType.Data;
+
     private void Start()
     {
         isCapturing = false;
@@ -78,6 +80,7 @@ public class MissionData : MonoBehaviour
         }
         UIManager.instance.SetActivePorgressUI(false);
         GameManager.instance.AddScore(1);
+        GameManager.instance.UpdateMissionList(type);
         hasCompletedCapture = true;
         
     }

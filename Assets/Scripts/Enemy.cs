@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 
 public class Enemy : LivingEntity
 {
@@ -56,7 +57,6 @@ public class Enemy : LivingEntity
     NavMeshAgent pathFinder; //추적 루트에 사용
     public FieldOfView fieldOfView;
     public LayerMask targetLayer;
-    public Rigidbody rigidbody;
 
     //bool
     private bool isWaiting = false;
@@ -101,7 +101,6 @@ public class Enemy : LivingEntity
         }
         nextPos = WayPoints[nextWayPointIndex];
         enemyAnimator = GetComponent<Animator>();
-        rigidbody = GetComponent<Rigidbody>();
         player = GameObject.FindWithTag(playerTag).transform;
         //gaugeBar = gameObject.GetComponent< Michsky.MUIP.ProgressBar>();
     }
@@ -340,6 +339,7 @@ public class Enemy : LivingEntity
                     {
                         isTarget = true;
                         target = livingEntity.GetComponent<LivingEntity>();
+                        
                     }
                 }
 
@@ -364,33 +364,38 @@ public class Enemy : LivingEntity
 
     private bool FindNearTarget()
     {
-        //Collider[] colliders = Physics.OverlapSphere(transform.position, nearRadius);
-        //foreach (Collider collider in colliders)
-        //{
-        //    if (collider.tag == playerTag)
-        //    {
-        //        target = collider.GetComponent<LivingEntity>();
-        //        targetTimer = 0f;
-        //        Debug.Log("FindNearTarget");
-        //        return true;
-        //    }
-        //}
-
-        //return false;
-
-        RaycastHit[] hits = Physics.SphereCastAll(transform.position, nearRadius, Vector3.forward, 0);
-
-        foreach (RaycastHit hit in hits)
+        Collider[] colliders = Physics.OverlapSphere(transform.position, nearRadius);
+        
+        foreach (Collider collider in colliders)
         {
-            if (hit.collider.CompareTag(playerTag))
+            if (collider.tag == playerTag)
             {
-                target = hit.collider.GetComponent<LivingEntity>();
-                targetTimer = 0f;
-                Debug.Log("FindNearTarget");
-                return true;
+                Vector3 start = transform.position; // 선의 시작 위치
+                start.y = 1f;
+                Vector3 end = collider.transform.position; // 선의 종료 위치
+                end.y = 1f;
+
+                RaycastHit hit;
+                Ray ray = new Ray(start, end - start);
+                
+                Physics.Raycast(ray, out hit, nearRadius);
+                if(hit.transform.tag != null)
+                {
+                    if (hit.transform.tag == playerTag)
+                    {
+                        target = hit.transform.GetComponent<LivingEntity>();
+                        //Debug.Log("true");
+                        return true;
+                    }
+                    else
+                    {
+                        //Debug.Log("false");
+                        return false;
+                    }
+                }
             }
         }
-
+        target = null;
         return false;
     }
 
@@ -468,14 +473,18 @@ public class Enemy : LivingEntity
     {
         // LivingEntity의 OnDamage() 실행(데미지 적용)
         base.OnDamage(damage);
-        Debug.Log($"enemy health: {health}");
+        //Debug.Log($"enemy health: {health}");
     }
 
     protected override void OnEnable()
     {
+        if(dead)
+        {
+            enemyAnimator.SetTrigger("WAKE");
+            gauge = 100;
+        }
         base.OnEnable();
         isWakeUp = true;
-        enemyAnimator.SetTrigger("WAKE");
         target = null;
         state = State.Idle;
     }
@@ -484,6 +493,7 @@ public class Enemy : LivingEntity
     public override void Die()
     {
         // LivingEntity의 Die() 실행(사망 적용)
+        pathFinder.isStopped = true;
         base.Die();
         enemyAnimator.SetTrigger("DIE"); 
         StartCoroutine(WaitForWakeUp());

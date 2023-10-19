@@ -21,8 +21,8 @@ MonoBehaviour:
   buttonNormalColor: {r: 0.21568628, g: 0.29411766, b: 0.37254903, a: 255}
   buttonAccentColor: {r: 1, g: 1, b: 1, a: 255}
   buttonDisabledAlpha: 0.4
-  dropdownFont: {fileID: 11400000, guid: 4bd810f1cbcb0f446a8f5a31453e243f, type: 2}
-  dropdownItemFont: {fileID: 11400000, guid: 4bd810f1cbcb0f446a8f5a31453e243f, type: 2}
+  dropdownFont: {fileID: 11400000, guid: 111725fa83344d94482a76bbb4e7f478, type: 2}
+  dropdownItemFont: {fileID: 11400000, guid: 111725fa83344d94482a76bbb4e7f478, type: 2}
   dropdownBackgroundColor: {r: 0.21568628, g: 0.29411766, b: 0.37254903, a: 255}
   dropdownContentBackgroundColor: {r: 0.1764706, g: 0.25490198, b: 0.33333334, a: 255}
   dropdownPrimaryColor: {r: 1, g: 1, b: 1, a: 255}
@@ -42,7 +42,7 @@ MonoBehaviour:
   modalWindowContentPanelColor: {r: 1, g: 1, b: 1, a: 0.039215688}
   notificationTitleFont: {fileID: 11400000, guid: a3b8227f869eca143b84637fb388feb3, type: 2}
   notificationTitleFontSize: 22.5
-  notificationDescriptionFont: {fileID: 11400000, guid: 111725fa83344d94482a76bbb4e7f478, type: 2}
+  notificationDescriptionFont: {fileID: 11400000, guid: c31bc4eb711787c4c9ffd0001d33e2de, type: 2}
   notificationDescriptionFontSize: 18
   notificationThemeType: 0
   notificationBackgroundColor: {r: 0.1764706, g: 0.25490198, b: 0.33333334, a: 1}

@@ -112,6 +112,7 @@ public class MainTitleUIManager : MonoBehaviour
 
     public void OnStage1Click()
     {
+        Cursor.visible = false;
         SceneManager.LoadScene("Develop");
     }
 }

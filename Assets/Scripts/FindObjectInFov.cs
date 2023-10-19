@@ -4,7 +4,7 @@ public class FindObjectInFov : MonoBehaviour
 {
     public string doorTag = "LockDoor";
     private Camera mainCamera;
-    private float rayLength = 6f; // 레이의 길이 (조정 가능)  
+    private float rayLength = 8f; // 레이의 길이 (조정 가능)  
     private float npcRayLength = 10f;
     public LayerMask targetLayer;
     public LayerMask bookLayer;

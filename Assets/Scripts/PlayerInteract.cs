@@ -108,6 +108,7 @@ public class PlayerInteract : MonoBehaviour
     public void GetBookData()
     {
         GameManager.instance.AddScore(1);
+        GameManager.instance.UpdateMissionList(GameManager.MissionType.Book);
         bookObj.SetActive(false);
     }
 
@@ -115,6 +116,7 @@ public class PlayerInteract : MonoBehaviour
     {
         keyObj.SetActive(false);
         hasKey = true;
+        UIManager.instance.SetActiveKey(hasKey);
     }
 
     public void DoorOpen()

@@ -29,6 +29,6 @@ public class PlayerInput : MonoBehaviour
 
         interact = Input.GetKeyDown(KeyCode.E);
 
-        fire = Input.GetButtonDown("Fire1");
+        fire = Input.GetButtonDown("Fire2");
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -31,7 +32,12 @@ public class UIManager : MonoBehaviour
     public Michsky.MUIP.ProgressBar dataBar; // ImgsFD;
     public Michsky.MUIP.NotificationManager notification;
     public Michsky.MUIP.NotificationManager npcNotification;
+    public Michsky.MUIP.NotificationManager HomeNotification;
+    public Michsky.MUIP.NotificationManager RestartNotification;
+    public Michsky.MUIP.NotificationManager ExitNotification;
+    public Michsky.MUIP.DropdownMultiSelect missionList;
     public GameObject menuList;
+    public GameObject key;
     //public Michsky.MUIP.RangeSlider healthBar;
 
 
@@ -43,31 +49,6 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         SetActivePorgressUI(false);
-        ///*
-        //Acion 변수에 함수를 연결하는 람다식의 문법
-
-        //매개변수(인자, 인수, Argument)가 있을 때 
-        //델리게이트타입 변수명 = (매개변수1, 매개변수2 ...) => 식;
-        //델리게이트타입 변수명 = (매개변수1, 매개변수2 ...) => {로직1;, 로직2; ...};
-
-        //매개변수(인자, 인수, Argument)가 없을 때 
-        //델리게이트타입 변수명 = () => 식;
-        //델리게이트타입 변수명 = () => {로직1;, 로직2; ...};
-        //*/
-
-        //// UnityAction을 사용한 이벤트 연결 방식
-        //action = () => OnStartClick();
-        //startButton.onClick.AddListener(action);
-
-        //// 무명메서드를 활용한 이벤트 연결 방식
-        //optionButton.onClick.AddListener(delegate { OnButtonClick(optionButton.name); });
-
-        //// 람다식을 활용한 이벤트 연결 방식
-        //exitButton.onClick.AddListener(() => OnButtonClick(exitButton.name));
-
-        //backButton.onClick.AddListener(() => OnButtonClick(backButton.name));
-
-        //stage1Button.onClick.AddListener(() => OnButtonClick(stage1Button.name));
     }
 
     private void Update()
@@ -140,13 +121,74 @@ public class UIManager : MonoBehaviour
         npcNotification.Open();
     }
 
+    public void SetActiveHomePop(bool isActive)
+    {
+        if(isActive)
+        {
+            HomeNotification.Open();
+        }
+        else
+        {
+            HomeNotification.Close();
+        }
+        
+    }
+
+    public void SetActiveRestartPop(bool isActive)
+    {
+        if (isActive)
+        {
+            RestartNotification.Open();
+        }
+        else
+        {
+            RestartNotification.Close();
+        }
+        //RestartNotification.Open();
+    }
+
+    public void SetActiveExitPop(bool isActive)
+    {
+        if (isActive)
+        {
+            ExitNotification.Open();
+        }
+        else
+        {
+            ExitNotification.Close();
+        }
+        //ExitNotification.Open();
+    }
+
     public void LoadTitle()
     {
+        Cursor.visible = true;
         SceneManager.LoadScene("MainTitleUI");
     }
 
     public void SetActiveMenuList(bool isActive)
     {
         menuList.SetActive(isActive);
+    }
+
+    public void OnExityesClick()
+    {
+        #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+        #else
+				                Application.Quit();
+        #endif
+    }
+
+    public void UpdateMissionList(int index, bool isActive)
+    {
+        missionList.items[index].isOn = isActive;
+        missionList.SetupDropdown();
+
+    }
+
+    public void SetActiveKey(bool value)
+    {
+        key.SetActive(value);
     }
 }

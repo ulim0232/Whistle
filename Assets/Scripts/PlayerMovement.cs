@@ -12,10 +12,8 @@ public class PlayerMovement : MonoBehaviour
     public float walkSpeed = 3;
 
     private Vector3 direction;
-    private bool isJumping = false;
 
     private PlayerInput playerInput; // 플레이어 입력을 알려주는 컴포넌트
-    private PlayerInteract playerInteract;
     private Rigidbody playerRigidbody; // 플레이어 캐릭터의 리지드바디
     private Animator playerAnimator; // 플레이어 캐릭터의 애니메이터
 
@@ -27,7 +25,6 @@ public class PlayerMovement : MonoBehaviour
         // 사용할 컴포넌트들의 참조를 가져오기
         playerInput = GetComponent<PlayerInput>();
         playerRigidbody = GetComponent<Rigidbody>();
-        playerInteract = GetComponent<PlayerInteract>();
         //playerAnimator = GetComponent<Animator>();
         worldCam = Camera.main; //씬에서 메인 카메라 태그가 붙은 게임오브젝트를 GetCompnent 해서 리턴함
         playerAnimator = GetComponent<Animator>();
@@ -110,29 +107,6 @@ public class PlayerMovement : MonoBehaviour
             //transform.forward = Vector3.Lerp(transform.forward, direction, rotateSpeed * Time.deltaTime);
 
             //Debug.Log($"rotate{targetRotation}");
-        }
-    }
-
-    private void Jump()
-    {
-        isJumping = true;
-        
-        playerRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-
-        if (!playerAnimator.GetBool("Jump"))
-        {
-            playerAnimator.SetBool("Jump", true);
-            playerAnimator.SetTrigger("Jump1");
-        }   
-    }
-
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.CompareTag("Ground"))
-        {
-            isJumping = false;
-            playerAnimator.SetBool("Jump", false);
         }
     }
 }

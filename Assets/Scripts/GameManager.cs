@@ -5,6 +5,11 @@ using UnityEngine.SceneManagement;
 // 점수와 게임 오버 여부를 관리하는 게임 매니저
 public class GameManager : MonoBehaviour
 {
+    public enum MissionType
+    {
+        Data,
+        Book
+    }
     // 싱글톤 접근용 프로퍼티
     public static GameManager instance
     {
@@ -29,6 +34,8 @@ public class GameManager : MonoBehaviour
     public float gameOverTime { get; private set; }
     public float timer = 0;
     public GameObject menuList;
+    public int CompleteBookCount = 0;
+    public int CompleteDataCount = 0;
 
     private void Awake()
     {
@@ -45,16 +52,20 @@ public class GameManager : MonoBehaviour
         FindObjectOfType<PlayerHealth>().onDeath += EndGame;
         score = 0;
         //Cursor.visible = false;
-        gameOverTime = 300f;
+        gameOverTime = 600f;
         timer = gameOverTime;
     }
 
     private void Update()
     {
-        //if (score >= 4)
-        //{
-        //    ClearGame();
-        //}
+        if (Input.GetKeyDown(KeyCode.LeftAlt))
+        {
+            Cursor.visible = true;
+        }
+        if(Input.GetKeyUp(KeyCode.LeftAlt))
+        {
+            Cursor.visible = false;
+        }
 
         if(!isGameover)
         {
@@ -98,12 +109,15 @@ public class GameManager : MonoBehaviour
     public void ClearGame()
     {
         isGameover = true;
-        UIManager.instance.SetActiveGameclearUI(true);
+        Cursor.visible = true;
+        SceneManager.LoadScene("Happy");
+        //UIManager.instance.SetActiveGameclearUI(true);
     }
 
     public void EndGame()
     {
         isGameover = true;
+        Cursor.visible = true;
         SceneManager.LoadScene("Sad");
         //UIManager.instance.SetAcitveGameOverUI(true);
     }
@@ -122,6 +136,20 @@ public class GameManager : MonoBehaviour
         else
         {
             UIManager.instance.SetActiveMenuList(true);
+        }
+    }
+
+    public void UpdateMissionList(MissionType type)
+    {
+        if(type == MissionType.Data)
+        {
+            UIManager.instance.UpdateMissionList(CompleteDataCount + 3, true);
+            CompleteDataCount++;
+        }
+        else if(type == MissionType.Book)
+        {
+            UIManager.instance.UpdateMissionList(CompleteBookCount, true);
+            CompleteBookCount++;
         }
     }
 }
