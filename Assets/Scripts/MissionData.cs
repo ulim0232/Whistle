@@ -5,7 +5,7 @@ using UnityEngine;
 public class MissionData : MonoBehaviour
 {
     public float gauge { get; private set; } //수집 진행도
-    public float duration = 60f;
+    public float duration = 40f;
 
     private float startTime;
     public bool isCapturing; //수집 중인지 확인. 이것이 활성화되면 진행도가 점점 오름
@@ -82,7 +82,7 @@ public class MissionData : MonoBehaviour
         GameManager.instance.AddScore(1);
         GameManager.instance.UpdateMissionList(type);
         hasCompletedCapture = true;
-        
+        player.GetComponent<PlayerInteract>().PlayCompleteSound();
     }
 
     public void PauseCapture()

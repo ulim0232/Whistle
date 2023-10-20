@@ -53,10 +53,7 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            AcitveNeedKey();
-        }
+
     }
 
     public void SetActiveInteractUI(bool active)

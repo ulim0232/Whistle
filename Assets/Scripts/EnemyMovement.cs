@@ -27,10 +27,10 @@ public class EnemyMovement : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            agent.SetDestination(target.position);
-        }
+        //if(Input.GetKeyDown(KeyCode.Alpha0))
+        //{
+        //    agent.SetDestination(target.position);
+        //}
         if (fieldOfView.player != null)
         {
             if (!isChasing)

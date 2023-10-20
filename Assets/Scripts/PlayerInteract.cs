@@ -13,10 +13,14 @@ public class PlayerInteract : MonoBehaviour
 
     private bool hasKey = false;
 
+    public AudioSource playerAudio;
+    public AudioClip playerCompleteSound;
+
     private void Start()
     {
         playerinput = GetComponent<PlayerInput>();
         findObjectInFov = GetComponent<FindObjectInFov>();
+        playerAudio = GetComponent<AudioSource>();
     }
 
 
@@ -110,6 +114,7 @@ public class PlayerInteract : MonoBehaviour
         GameManager.instance.AddScore(1);
         GameManager.instance.UpdateMissionList(GameManager.MissionType.Book);
         bookObj.SetActive(false);
+        PlayCompleteSound();
     }
 
     public void GetKey()
@@ -117,10 +122,16 @@ public class PlayerInteract : MonoBehaviour
         keyObj.SetActive(false);
         hasKey = true;
         UIManager.instance.SetActiveKey(hasKey);
+        PlayCompleteSound();
     }
 
     public void DoorOpen()
     {
         doorObj.GetComponent<Door>().ActionDoor();
+    }
+
+    public void PlayCompleteSound()
+    {
+        playerAudio.PlayOneShot(playerCompleteSound);
     }
 }

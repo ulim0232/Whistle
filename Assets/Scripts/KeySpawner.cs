@@ -47,7 +47,7 @@ public class KeySpawner : MonoBehaviour
                 randomIndex = Random.Range(0, spawnPoints.Length);
             } while (useSpawnIndex.Contains(randomIndex));
 
-            Instantiate(keyPrefab, spawnPoints[randomIndex].position, rotation);
+            Instantiate(keyPrefab, spawnPoints[randomIndex].position, keyPrefab.transform.rotation);
             useSpawnIndex.Add(randomIndex);
             Debug.Log(spawnPoints[randomIndex].name);
         }

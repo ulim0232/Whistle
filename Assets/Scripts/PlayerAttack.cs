@@ -13,10 +13,14 @@ public class PlayerAttack : MonoBehaviour
     private float lastAttackTime = 0;
     private float timeBetAttack = 2f;
 
+    public AudioSource playerAudio;
+    public AudioClip playerAttackClip;
+
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
         playerAnimator = GetComponent<Animator>();
+        playerAudio = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -41,6 +45,7 @@ public class PlayerAttack : MonoBehaviour
                 {
                     lastAttackTime = Time.time;
                     other.gameObject.GetComponent<LivingEntity>().OnDamage(damage);
+                    playerAudio.PlayOneShot(playerAttackClip);
                     
                 }
             }

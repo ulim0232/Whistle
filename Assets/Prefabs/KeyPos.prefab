@@ -149,7 +149,7 @@ Transform:
   m_GameObject: {fileID: 4949797540267128152}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.795, y: 1.718, z: -3.09}
+  m_LocalPosition: {x: -3.795, y: 1.7851, z: -3.09}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -180,7 +180,7 @@ Transform:
   m_GameObject: {fileID: 5827061108844123511}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.016, y: -12.237, z: -14.786}
+  m_LocalPosition: {x: 8.016, y: -12.2042, z: -14.786}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -211,7 +211,7 @@ Transform:
   m_GameObject: {fileID: 6646287291480791899}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10.949, y: -7.236, z: 0.348}
+  m_LocalPosition: {x: 10.949, y: -7.2112, z: 0.348}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -227,7 +227,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7867502140837003087}
   m_Layer: 0
-  m_Name: Key
+  m_Name: KeyPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -69,15 +69,6 @@ public class GameManager : MonoBehaviour
 
         if(!isGameover)
         {
-            if (Input.GetKeyDown(KeyCode.Tab))
-            {
-                UIManager.instance.SetActiveControlUI(true);
-            }
-
-            if (Input.GetKeyUp(KeyCode.Tab))
-            {
-                UIManager.instance.SetActiveControlUI(false);
-            }
             timer -= Time.deltaTime;
             UIManager.instance.SetTimerTxt(timer);
 
@@ -85,11 +76,6 @@ public class GameManager : MonoBehaviour
             {
                 EndGame();
             }
-        }
-
-        if(Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            AddScore(6);
         }
     }
 
